@@ -1,0 +1,82 @@
+.App {
+	text-align: center;
+}
+
+.App-logo {
+	height: 40vmin;
+	pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.App-logo {
+		animation: App-logo-spin infinite 20s linear;
+	}
+}
+@import url("https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap");
+
+.App-header {
+	background-color: #282c34;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: calc(10px + 2vmin);
+	color: white;
+}
+
+@font-face {
+	font-family: "TuskerGrotesk-2600Semibold";
+	src: local("TuskerGrotesk-2600Semibold"),
+		url("./fonts/TuskerGrotesk-2600Semibold.ttf") format("truetype");
+	font-weight: normal;
+}
+
+.tusk {
+	font-family: "TuskerGrotesk-2600Semibold";
+}
+
+.App-link {
+	color: #377771;
+}
+
+.pangramb {
+	font-family: "Pangram-bold";
+}
+.pangram {
+	font-family: "Pangram";
+}
+.btn-font {
+	font-family: "Fjalla One", sans-serif;
+}
+.fg {
+	font-family: "fg";
+}
+
+.MuiTab-textColorPrimary.Mui-selected {
+	color: #377771 !important;
+}
+
+.btn-primary {
+	font-family: "Fjalla One", sans-serif;
+	color: #fff;
+	background-color: transparent;
+	border-color: #967469;
+}
+.btn-primary:hover {
+	color: #fff;
+	background-color: #967469;
+	border-color: #967469;
+}
+.btn-primary::focus {
+	background-color: yellow !important;
+}
+
+.bg {
+	background-image: url("../public/mac.jpeg");
+	height: 100vh;
+  width:100vw;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
