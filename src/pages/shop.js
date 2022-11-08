@@ -10,13 +10,7 @@ export function Shop() {
 	useEffect(() => {
 		async function check() {
 			const rawResponse = await fetch(
-				"http://localhost:3000/articles/load-articles",
-				{
-					method: "GET",
-					headers: {
-						accept: "application/json",
-					},
-				}
+				"http://localhost:3000/articles/load-articles",{mode:'cors'}
 			);
 			var response = await rawResponse.json();
 			console.log("cunt", response);
