@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import { Button1 } from "./anm-btn";
 import { Link } from "react-router-dom";
-import { primaryColor, ternaryColor } from "../config";
+import { darkColor, primaryColor, ternaryColor } from "../config";
 import { FaShoppingCart, FaArrowLeft } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { Add, Edit, Menu } from "@mui/icons-material";
@@ -21,27 +21,33 @@ import {
 	ListItemButton,
 	Divider,
 } from "@mui/material";
-import articles from "../data/articles";
 import UserPopover from "./userButton";
+import { connect } from "react-redux";
 
-export default function NavBar() {
+function NavBar(props) {
 	const [hover, setHover] = useState(false);
 	let color = hover ? primaryColor : "white";
 	let colorIcon = !hover ? primaryColor : "white";
 	const [state, setState] = useState(false);
 	const [stateLeft, setStateLeft] = useState(false);
 
-	var total = 12.99;
+	var total=0;
+	props.cart.forEach(el => total += el.price) 
+	
 	const toggleDrawer = (event) => {
 		setState(!state);
 	};
 	const toggleLeftDrawer = (event) => {
 		setStateLeft(!stateLeft);
 	};
-
+	const empty = (
+		<Box sx={{ color: "red", textAlign: "center"}}>
+			Le panier est vide.
+		</Box>
+	);
 	return (
 		<AppBar position="static">
-			<Container maxWidth="xl" sx={{ backgroundColor: "white", p:0 }}>
+			<Container maxWidth="xl" sx={{ backgroundColor: "white", p: 0 }}>
 				<Toolbar
 					sx={{
 						display: "flex",
@@ -135,20 +141,20 @@ export default function NavBar() {
 						}}
 					>
 						{/* //!Nav buttons // LargeScreen */}
-						<Link to="/" style={{textDecoration:'none'}} >
+						<Link to="/" style={{ textDecoration: "none" }}>
 							<Button1 name="HOME"></Button1>
 						</Link>
-						<Link to="/shop" style={{textDecoration:'none'}}>
+						<Link to="/shop" style={{ textDecoration: "none" }}>
 							<Button1 name="SHOP"></Button1>
 						</Link>
-						<Link to="/about" style={{textDecoration:'none'}}>
+						<Link to="/about" style={{ textDecoration: "none" }}>
 							<Button1 name="ABOUT"></Button1>
 						</Link>
-						<Link to="/about" style={{textDecoration:'none'}}>
+						<Link to="/contact" style={{ textDecoration: "none" }}>
 							<Button1 name="CONTACT"></Button1>
 						</Link>
 					</Box>
-					<Box sx={{ display: "flex" }}>
+					<Box sx={{ display: "flex", mr:{xs:2} }}>
 						{" "}
 						{/* //!USER BUTTON / large screen */}
 						<Box sx={{ display: { xs: "flex", md: "none" } }}>
@@ -168,7 +174,7 @@ export default function NavBar() {
 							}}
 							onClick={() => toggleDrawer()}
 						>
-							<Badge badgeContent={9} color="error">
+							<Badge badgeContent={props.cart.length} color="error">
 								<FaShoppingCart color={colorIcon} size={16} />
 							</Badge>
 						</IconButton>
@@ -178,6 +184,7 @@ export default function NavBar() {
 					<SwipeableDrawer
 						anchor="right"
 						open={state}
+						sx={{ display:'flex', flexDirection:'column',justifyContent:'space-between' }}
 						onOpen={() => console.log("open")}
 						onClose={(event, reason) => {
 							if (reason === "backdropClick") {
@@ -189,14 +196,12 @@ export default function NavBar() {
 						<List
 							sx={{
 								padding: 0,
-								width: { xs: "100vw", md: "33vw" },
+								width: { xs: "100vw", md: "33vw", display: "flex", flexDirection: "column", height: "100vh", justifyContent:'space-between'},
 							}}
 						>
 							<ListItem
 								sx={{
-									backgroundColor: "black",
-									position: "sticky",
-									top: 0,
+									backgroundColor: darkColor,
 									zIndex: 10,
 								}}
 							>
@@ -218,57 +223,61 @@ export default function NavBar() {
 								/>
 								<FaShoppingCart color="white" />
 							</ListItem>
+							<Box sx={{height:'100%', overflow:'auto', display:'block'}}>
 							{/* //!ITEMS */}
-							{articles.map((item, index) => (
-								<Box>
-									<ListItem key={index} sx={{ textAlign: "center" }}>
-										<div
-											style={{
-												flex: 1,
-												display: "flex",
-												justifyContent: "space-between",
-												alignItems: "center",
-											}}
-										>
-											<div>
-												<img
-													style={{ objectFit: "cover" }}
-													height={130}
-													width={130}
-													src={item.pic}
-													srcSet={`${item.pic}`}
-													alt={item.name}
-													loading="lazy"
-												/>
-											</div>
-											<div>
-												<ListItemText>
-													<strong>Name</strong>
-												</ListItemText>
-												<ListItemText>{item.name}</ListItemText>
-											</div>
-											<div>
-												<ListItemText>
-													<strong>Price</strong>
-												</ListItemText>
-												<ListItemText>{item.price}</ListItemText>
-											</div>
-											<IconButton>
-												<IoClose size={20} color="grey" />
-											</IconButton>
-										</div>
-										<Divider />
-									</ListItem>
-									<Divider variant="middle" sx={{ backgroundColor: "black" }} />
+							{props.cart.length > 0
+								? props.cart.map((item, index) => (
+										<Box key={index}>
+											<ListItem sx={{ textAlign: "center" }}>
+												<div
+													style={{
+														flex: 1,
+														display: "flex",
+														justifyContent: "space-between",
+														alignItems: "center",
+													}}
+												>
+													<div>
+														<img
+															style={{ objectFit: "cover" }}
+															height={130}
+															width={130}
+															src={item.pic}
+															srcSet={`${item.pic}`}
+															alt={item.name}
+															loading="lazy"
+														/>
+													</div>
+													<div>
+														<ListItemText>
+															<strong>Name</strong>
+														</ListItemText>
+														<ListItemText>{item.name}</ListItemText>
+													</div>
+													<div>
+														<ListItemText>
+															<strong>Price</strong>
+														</ListItemText>
+														<ListItemText>{item.price}</ListItemText>
+													</div>
+													<IconButton onClick={()=>{ props.removeItem(item)}}>
+														<IoClose size={20} color="grey" />
+													</IconButton>
+												</div>
+												<Divider />
+											</ListItem>
+											<Divider
+												variant="middle"
+												sx={{ backgroundColor: "black" }}
+											/>
+										</Box>
+								  ))
+								: empty}
 								</Box>
-							))}
 							{/* //!Footer */}
 							<ListItem
 								sx={{
 									backgroundColor: "black",
-									position: "sticky",
-									bottom: 0,
-									zIndex: 10,
 								}}
 							>
 								<ListItemText
@@ -280,7 +289,7 @@ export default function NavBar() {
 										color: "white",
 									}}
 								>
-									<strong>Total: {total} $CAD</strong>
+									Total: <strong>{total}</strong> $CAD
 								</ListItemText>
 								<Button
 									style={{
@@ -307,13 +316,13 @@ export default function NavBar() {
 						}}
 					>
 						{/* //!ITEMS */}
-						<List className="xs-100vw md-33vw" sx={{ padding: 0 }}>
+						<List sx={{ p: 0, width:{xs:"50vw", md:"33vw"}}}>
 							<Link
 								onClick={() => {
 									toggleLeftDrawer();
 								}}
 							>
-								<ListItemButton sx={{ my: 0, width: "50vw" }}>
+								<ListItemButton>
 									<ListItemText primary="HOME" />
 								</ListItemButton>
 							</Link>
@@ -323,7 +332,7 @@ export default function NavBar() {
 								}}
 								to="/shop"
 							>
-								<ListItemButton sx={{ my: 0, width: "50vw" }}>
+								<ListItemButton>
 									<ListItemText primary="SHOP" />
 								</ListItemButton>
 							</Link>
@@ -333,7 +342,7 @@ export default function NavBar() {
 								}}
 								to="/about"
 							>
-								<ListItemButton sx={{ my: 0, width: "50vw" }}>
+								<ListItemButton>
 									<ListItemText primary="ABOUT" />
 								</ListItemButton>
 							</Link>
@@ -343,7 +352,7 @@ export default function NavBar() {
 								}}
 								to="/contact"
 							>
-								<ListItemButton sx={{ my: 0, width: "50vw" }}>
+								<ListItemButton>
 									<ListItemText primary="CONTACT" />
 								</ListItemButton>
 							</Link>
@@ -354,3 +363,17 @@ export default function NavBar() {
 		</AppBar>
 	);
 }
+
+function mapStateToProps(state) {
+	return { cart: state.cart };
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		removeItem: function (item) {
+			dispatch({ type: "removeItem", removeItem: item });
+		},
+	};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

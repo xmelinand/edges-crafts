@@ -4,26 +4,38 @@ import { primaryColor } from "../config";
 import { GiSewingString, GiCandleHolder, GiCrystalBars } from "react-icons/gi";
 import { BsFillMoonStarsFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
+import { connect } from "react-redux";
 
-export function Shop() {
+function Shop(props) {
 	const [articles, setArticles] = useState([]);
+
+	//get all articles from DB at loading
 	useEffect(() => {
-		async function check() {
+		async function loadArticles() {
 			const rawResponse = await fetch(
-				"http://localhost:3000/articles/load-articles",{mode:'cors'}
+				"http://localhost:3000/articles/load-articles"
 			);
 			var response = await rawResponse.json();
-			console.log("cunt", response);
 			setArticles(response.articles);
 		}
-		check();
+		loadArticles();
 	}, []);
+
+
+	function addToCart(clickedItem) {
+		props.addItem(clickedItem);
+	}
+
+	/* Generate a list of cards for all the articles found in the dataBase
+	Reverse the list to display the newest article first.
+	*/
 	const items = articles
 		.slice(0)
 		.reverse()
 		.map(function (item, i) {
 			let opacity;
-			item.sold === true ? (opacity = "0.5") : (opacity = "1");
+			item.sold ? (opacity = 0.5) : (opacity = 1);
+
 			return (
 				<Col key={i} className="cards">
 					<Card
@@ -53,7 +65,7 @@ export function Shop() {
 								<Button1
 									name="Ajouter au panier"
 									action={() => {
-										console.log(item.name, i);
+										addToCart(item);
 									}}
 								></Button1>
 								<div>
@@ -85,28 +97,28 @@ export function Shop() {
 					<Button2
 						icon={<GiSewingString size="12px" />}
 						name="MURALES"
-						action={() => {
-							console.log("twat");
-						}}
+						// action={() => {
+						// 	console.log("twat");
+						// }}
 					></Button2>
 					<Button2
 						icon={<BsFillMoonStarsFill size="10px" />}
 						name="SUSPENSIONS"
-						action={() => {}}
+						// action={console.log("ass")}
 					></Button2>
 					<Button2
 						icon={<GiCandleHolder size="12px" />}
 						name="FLEURS SÉCHÉES"
-						action={() => {
-							console.log("fuck");
-						}}
+						// action={() => {
+						// 	console.log("fuck");
+						// }}
 					></Button2>
 					<Button2
 						icon={<GiCrystalBars size="12px" />}
 						name="ACCESSOIRES"
-						action={() => {
-							console.log("tits");
-						}}
+						// action={() => {
+						// 	console.log("tits");
+						// }}
 					></Button2>
 				</div>
 			</Row>
@@ -116,3 +128,13 @@ export function Shop() {
 		</Container>
 	);
 }
+
+function mapDispatchToProps(dispatch) {
+	return {
+		addItem: function (item) {
+			dispatch({ type: "addItem", addItem: item });
+		},
+	};
+}
+
+export default connect(null, mapDispatchToProps)(Shop);

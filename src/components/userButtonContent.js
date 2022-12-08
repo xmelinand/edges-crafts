@@ -130,7 +130,7 @@ export default function UserButtonContent () {
 								id="outlined-basic"
                                 size="small"
                                 fullWidth
-								label="Nom(s)"
+								label="Nom"
 								variant="outlined"
 								value={lastName}
 								onChange={handleLastName}
@@ -150,7 +150,7 @@ export default function UserButtonContent () {
 								id="outlined-basic"
                                 size="small"
                                 fullWidth
-								label="Confirmez l'email"
+								label="Confirmer email"
 								variant="outlined"
 								value={emailConfirm}
 								onChange={handleEmailConfirm}
@@ -158,7 +158,7 @@ export default function UserButtonContent () {
 							<TextField
 								sx={styles.inputs}
 								id="outlined-basic"
-								label="Mot de Passe"
+								label="Mot de passe"
                                 size="small"
                                 fullWidth
 								variant="outlined"
@@ -168,7 +168,7 @@ export default function UserButtonContent () {
 							/>
 							<TextField
 								sx={styles.inputs}
-								label="Mot de Passe"
+								label="Confirmer mot de passe"
 								variant="outlined"
                                 size="small"
                                 fullWidth

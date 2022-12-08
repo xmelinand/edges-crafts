@@ -40,7 +40,7 @@ export default function AddItems() {
 
 	var handleAddItem = async () => {
 		var rawResponse = await fetch(
-			`http://192.168.0.28:3000/articles/add-item`,
+			`http://localhost:3000/articles/add-item`,
 			{
 				mode: 'no-cors',
 				method: "POST",

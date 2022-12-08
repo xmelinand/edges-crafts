@@ -46,8 +46,9 @@ const Button2 = ({ name, action, icon }) => {
 			width: "100%",
 			margin: 2,
 			padding: 0,
+			textAlign:'center',
 			fontFamily: "Fjalla One",
-			fontSize:"0.7rem",
+			fontSize:{sx:"0.7rem", md:"1rem"},
 			letterSpacing: 0,
 			lineHeight: "14px",
 			backgroundColor: !hover ? "transparent" : ternaryColor,
@@ -59,7 +60,7 @@ const Button2 = ({ name, action, icon }) => {
 		activeBtn: {
 			height: "80%",
 			width: "100%",
-			fontSize:"0.7rem",
+			fontSize:{sx:"0.7rem", md:"1rem"},
 			margin: 2,
 			padding: 0,
 			fontFamily: "Fjalla One",
@@ -81,15 +82,15 @@ const Button2 = ({ name, action, icon }) => {
 			onMouseOut={() => {
 				setHover(false);
 			}}
-			onClick={() => {
-				setClicked(!clicked);
-			}}
+			onClick={()=>
+				{setClicked(!clicked)}
+			}
 			toggle={true}
-			startIcon={icon}
 		>
-			<>{name}</>
+			<>{icon}{name}</>
 		</Button>
 	);
 };
 
 export { Button1, Button2 };
+

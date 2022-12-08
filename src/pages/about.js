@@ -1,37 +1,114 @@
-import { Container, Row, Col} from 'react-bootstrap';
-import { primaryColor } from "../config";
+import { Grid, Typography } from "@mui/material";
+import {
+	darkColor,
+	secondaryColor,
+	ternaryColor,
+} from "../config";
 
 export function About() {
-	var bio = 
-	`Célia, jeune maman de deux enfants est une passionnée de décoration murale.
-	 Elle a tout d'abord longtemps travailler en tant que que coiffeuse-visagiste et styliste. C'est après avoir travailler quelques années dans un bar qu'elle a tout arrêté pour vivre sa première grossesse pleinement. Puis un autre bébé arrive et sa jolie famille devient un doux cocon qui lui donne l'envie d'épanouir son esprit créatif. Son mari l'incite au macramé et la magie opère instantanément !
-	Depuis, c'est de la belle ville de Montréal que Célia vous confectionne ses œuvres prêtes à partir.
-	
-	Le désir de vouloir être réellement originale l'a amené à se démarquer avec l'univers Witch qui l'a toujours inspiré. C'est dans un univers décalé et parfois un peu sombre tout en étant mystique et féérique que Célia tisse de créations uniques.
-	Elle apprécie tout particulièrement les fleurs séchées ainsi que les pierres semi-précieuses qu'elle intègre à ses créations afin d'y ajouter une touche de magie.
-	Les cordes utilisées par Célia viennent principalement de France via La Corderie Mansas ou du Royaume-Uni où elle commande des cordes 100% coton recyclé. Pour ses colis, elle utilise des cartons recyclés dans une démarche écologique.
-	
-	Les commandes se font à partir de créations uniques disponibles sur sa boutique en ligne. N'hésitez pas à suivre son actualité sur les réseaux sociaux afin de ne rien rater des nouveautés.
-	
-	Vous trouverez sur sa boutique en ligne des suspensions murales et des marques pages en macramé ainsi que des décorations en fleurs séchées.`
-
 	return (
-		<Container >
-		<Row style={styles.content}>
-			<Col xs="10" >
-			<div style={{textAlign:'center', padding:'5%', color:primaryColor, fontWeight:'bold', backgroundColor:'rgba(255,255,255,0.85)', borderRadius:'5px'}}>
-			<p>{bio}</p>
-			</div>
-			</Col>
-		</Row>
-		</Container>
+		< Grid container>
+		<Grid container sx={styles.content}>
+			<Grid
+				item
+				xs={12}
+				md={6}
+				sx={styles.bgTop}
+			>
+				<Typography sx={{ fontFamily:'Noe',fontSize: "2.7rem", lineHeight: "3.3rem" }}>
+					<span style={styles.highlight}>Edge's Crafts</span> c'est moi! Je suis une créatrice
+					d'objets de décoration intérieure spécialisée dans le macramé
+					<span style={styles.highlight}>.</span>
+				</Typography>
+				{/* <Box>
+					<img style={{ width:"13rem", borderRadius:'50%'}} alt='portrait de la fondatrice' src='../../celia.jpg'/>
+				</Box> */}
+			</Grid>
+			<Grid
+				item
+				xs={12}
+				md={6}
+				sx={{
+					color: secondaryColor,
+					padding: "8%",
+				}}
+			>
+				<Typography sx={{ fontSize: "1.3rem" }}>
+					Des modèles élégants et en exemplaire unique, fabriqués à la main avec des produits
+					de qualité alliant la chaleur du bois et la douceur de la corde,
+					parfois ornés de différents charmes et parures florales.
+					<br />
+					<br />
+					L'univers bohême me fascine et j'aime à imprégner mes créations de ses vibrations et de sa spiritualité.
+				</Typography>
+			</Grid>
+		</Grid>
+		<Grid container sx={[styles.content, {backgroundColor:"lightgrey", zIndex:-1}]}>
+				<Grid
+					item
+					xs={12}
+					md={6}
+					sx={{
+						color: darkColor,
+						padding: "8%",
+					}}
+				>
+					<Typography sx={{ fontSize: "1.3rem" }}>
+						Si un modèle vous plaît mais qu'il n'est malheureusement plus en vente, je pourrais en faire une reproduction sur demande, dépendant de mes ressources.
+						<br />
+						<br />
+						Pour passer commande, je vous invite à prendre contact avec moi par email.
+					</Typography>
+				</Grid>
+			<Grid
+				item
+				xs={12}
+				md={6}
+				sx={{
+					color: darkColor,
+					fontWeight: "bold",
+					borderRadius: "5px",
+					textAlign: "center",
+					padding: "8%",
+				}}
+			>
+				<Typography sx={{ fontFamily:'Noe',fontSize: "2.7rem", lineHeight: "3.3rem" }}>
+					<span style={styles.highlight}>Délai de traitement</span>: 
+				</Typography>
+				<Typography>
+					<span style={{fontFamily:'Noe',fontSize: "10rem", }}>0</span>jours.
+				</Typography>
+				{/* <Box>
+					<img style={{ width:"13rem", borderRadius:'50%'}} alt='portrait de la fondatrice' src='../../celia.jpg'/>
+				</Box> */}
+			</Grid>
+		</Grid>
+		</Grid>
 	);
 }
 
 const styles = {
-	content:{
+	content: {
 		display: "flex",
 		justifyContent: "center",
-		alignItems: "center",
+		backgroundColor: darkColor,
+		minheight:"100vh"
+	},
+	highlight: {
+		fontFamily: "Noe",
+		color: ternaryColor,
+	},
+	bgTop:{
+		color: secondaryColor,
+		fontWeight: "bold",
+		borderRadius: "5px",
+		padding: "8%",
+		backgroundImage: "url(../../stone.svg)",
+		backgroundRepeat: "no-repeat",
+		backgroundPosition: "center",
+		backgroundSize: "60%",
+		paddingBottom:20,
+		marginBottom: -20,
+		overflow: "visible",
 	}
 };

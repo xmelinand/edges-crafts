@@ -28,3 +28,8 @@ code {
   src: url("./fonts/Pangram-Bold.otf") format("opentype");
   font-weight: normal;
 }
+@font-face {
+  font-family: "Noe";
+  src: url("./fonts/FontsFree-Net-NoeDisplay-Bold.ttf") format("truetype");
+  font-weight: normal;
+}
