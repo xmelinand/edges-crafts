@@ -4,11 +4,14 @@ import {
 	secondaryColor,
 	ternaryColor,
 } from "../config";
+import { Button1 } from "../components/anm-btn";
+import { Link } from "react-router-dom";
+
 
 export function About() {
 	return (
-		< Grid container>
-		<Grid container sx={styles.content}>
+		<Grid container>
+		<Grid item sx={styles.content}>
 			<Grid
 				item
 				xs={12}
@@ -43,7 +46,7 @@ export function About() {
 				</Typography>
 			</Grid>
 		</Grid>
-		<Grid container sx={[styles.content, {backgroundColor:"lightgrey", zIndex:-1}]}>
+		<Grid sx={[styles.content, {backgroundColor:"lightgrey"}]}>
 				<Grid
 					item
 					xs={12}
@@ -53,12 +56,15 @@ export function About() {
 						padding: "8%",
 					}}
 				>
-					<Typography sx={{ fontSize: "1.3rem" }}>
+					<Typography sx={{ fontSize: "1.3rem", marginBottom:"2%" }}>
 						Si un modèle vous plaît mais qu'il n'est malheureusement plus en vente, je pourrais en faire une reproduction sur demande, dépendant de mes ressources.
 						<br />
 						<br />
 						Pour passer commande, je vous invite à prendre contact avec moi par email.
 					</Typography>
+					<Link to="/contact" style={{ textDecoration: "none", alignSelf:"flex-end"}}>
+							<Button1 name="CONTACT"></Button1>
+					</Link>
 				</Grid>
 			<Grid
 				item
@@ -76,7 +82,7 @@ export function About() {
 					<span style={styles.highlight}>Délai de traitement</span>: 
 				</Typography>
 				<Typography>
-					<span style={{fontFamily:'Noe',fontSize: "10rem", }}>0</span>jours.
+					<span style={{fontFamily:'Noe',fontSize: "10rem", }}>0</span>jour(s).
 				</Typography>
 				{/* <Box>
 					<img style={{ width:"13rem", borderRadius:'50%'}} alt='portrait de la fondatrice' src='../../celia.jpg'/>
@@ -92,7 +98,7 @@ const styles = {
 		display: "flex",
 		justifyContent: "center",
 		backgroundColor: darkColor,
-		minheight:"100vh"
+		//minheight:"100vh"
 	},
 	highlight: {
 		fontFamily: "Noe",
@@ -110,5 +116,6 @@ const styles = {
 		paddingBottom:20,
 		marginBottom: -20,
 		overflow: "visible",
+		zIndex: 1000,
 	}
 };

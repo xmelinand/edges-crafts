@@ -18,7 +18,7 @@ export function Home() {
 					className="tusk mt-2 mb-0 me-1"
 					style={{ color: 'white', fontSize: 40 }}
 				>
-					HOME
+					DERNIÈRES CRÉATIONS  
 				</h1>
 			</Row>
 			<Row

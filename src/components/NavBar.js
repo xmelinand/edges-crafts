@@ -41,7 +41,7 @@ function NavBar(props) {
 		setStateLeft(!stateLeft);
 	};
 	const empty = (
-		<Box sx={{ color: "red", textAlign: "center"}}>
+		<Box sx={{ color: "red", textAlign: "center", marginTop:"55%", fontWeight:"bold"}}>
 			Le panier est vide.
 		</Box>
 	);
@@ -142,13 +142,13 @@ function NavBar(props) {
 					>
 						{/* //!Nav buttons // LargeScreen */}
 						<Link to="/" style={{ textDecoration: "none" }}>
-							<Button1 name="HOME"></Button1>
+							<Button1 name="ACCUEIL"></Button1>
 						</Link>
 						<Link to="/shop" style={{ textDecoration: "none" }}>
-							<Button1 name="SHOP"></Button1>
+							<Button1 name="BOUTIQUE"></Button1>
 						</Link>
 						<Link to="/about" style={{ textDecoration: "none" }}>
-							<Button1 name="ABOUT"></Button1>
+							<Button1 name="À PROPOS"></Button1>
 						</Link>
 						<Link to="/contact" style={{ textDecoration: "none" }}>
 							<Button1 name="CONTACT"></Button1>
@@ -160,7 +160,7 @@ function NavBar(props) {
 						<Box sx={{ display: { xs: "flex", md: "none" } }}>
 							<UserPopover />
 						</Box>
-						{/* //!Cart button // Toggles Right Drawer */}
+						{/* //!Cart button // Toggles Cart Drawer */}
 						<IconButton
 							style={{
 								backgroundColor: `${color}`,
@@ -180,7 +180,7 @@ function NavBar(props) {
 						</IconButton>
 					</Box>
 
-					{/* //!RIGHT DRAWER CONTENT */}
+					{/* //!CART DRAWER CONTENT */}
 					<SwipeableDrawer
 						anchor="right"
 						open={state}
@@ -298,6 +298,7 @@ function NavBar(props) {
 										fontFamily: "fg",
 										color: "white",
 									}}
+									onClick={()=> props.cart.length > 0 ? console.log(props.cart) : console.log('empty dickhead')}
 								>
 									Commander
 								</Button>

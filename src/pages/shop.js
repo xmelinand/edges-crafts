@@ -20,11 +20,11 @@ function Shop(props) {
 		}
 		loadArticles();
 	}, []);
-
-
+	
 	function addToCart(clickedItem) {
 		props.addItem(clickedItem);
 	}
+
 
 	/* Generate a list of cards for all the articles found in the dataBase
 	Reverse the list to display the newest article first.
@@ -33,15 +33,23 @@ function Shop(props) {
 		.slice(0)
 		.reverse()
 		.map(function (item, i) {
-			let opacity;
-			item.sold ? (opacity = 0.5) : (opacity = 1);
+			// sold articles will show hollow
+			var opacity = item.sold ? 0.5 : 1;
+			// disable addToCart button if sold 
+			var buttonToggle = item.sold ? true : false;
+			var name;
+			if (item.sold === true){
+				name = 'Vendu'
+			} else {
+				name = "Ajouter au panier"
+			}
 
 			return (
 				<Col key={i} className="cards">
 					<Card
 						className="shadow"
 						style={{
-							opacity: { opacity },
+							opacity: opacity,
 							margin: "10px",
 							borderRadius: 0,
 							border: "1px solid #967469",
@@ -63,7 +71,8 @@ function Shop(props) {
 							<Card.Text>{item.description}</Card.Text>
 							<div className="d-flex align-items-center justify-content-between">
 								<Button1
-									name="Ajouter au panier"
+									disable={buttonToggle}
+									name={name}
 									action={() => {
 										addToCart(item);
 									}}

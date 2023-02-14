@@ -2,7 +2,7 @@ import { React, useState } from "react";
 import { Button } from "@mui/material";
 import { primaryColor, ternaryColor } from "../config";
 
-const Button1 = ({ name, action }) => {
+const Button1 = ({ name, action, disable }) => {
 	const [hover, setHover] = useState("");
 
 	let styles = {
@@ -20,6 +20,7 @@ const Button1 = ({ name, action }) => {
 
 	return (
 		<Button
+			disabled={disable}
 			style={styles.btn}
 			onMouseEnter={() => {
 				setHover(true);
