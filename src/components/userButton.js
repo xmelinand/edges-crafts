@@ -6,7 +6,7 @@ import {
 	IconButton,
 	Popover,
 } from "@mui/material";
-import UserButtonContent from "./userButtonContent";
+import UserConnection from "./UserConnection";
 
 function UserPopover() {
 	//! Popover states and functions
@@ -66,7 +66,7 @@ function UserPopover() {
 			>
 				{/* //!FORMS */}
 
-				<UserButtonContent/>
+				<UserConnection/>
 			</Popover>
 		</div>
 	);

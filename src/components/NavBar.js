@@ -31,9 +31,9 @@ function NavBar(props) {
 	const [state, setState] = useState(false);
 	const [stateLeft, setStateLeft] = useState(false);
 
-	var total=0;
-	props.cart.forEach(el => total += el.price) 
-	
+	var total = 0;
+	props.cart.forEach((el) => (total += el.price));
+
 	const toggleDrawer = (event) => {
 		setState(!state);
 	};
@@ -41,7 +41,14 @@ function NavBar(props) {
 		setStateLeft(!stateLeft);
 	};
 	const empty = (
-		<Box sx={{ color: "red", textAlign: "center", marginTop:"55%", fontWeight:"bold"}}>
+		<Box
+			sx={{
+				color: "red",
+				textAlign: "center",
+				marginTop: "40%",
+				fontWeight: "bold",
+			}}
+		>
 			Le panier est vide.
 		</Box>
 	);
@@ -86,7 +93,7 @@ function NavBar(props) {
 						</IconButton>
 					</Box>
 					{/* //!Title-SmallScreen */}
-					<Link to="/">
+					<Link to="/" className="App-link">
 						<Typography
 							variant="h5"
 							noWrap
@@ -94,15 +101,14 @@ function NavBar(props) {
 								mr: 2,
 								display: { xs: "flex", md: "none" },
 								flexGrow: 1,
-								fontFamily: "fg",
-								fontWeight: 700,
+								fontFamily: "Pangram",
+								fontWeight: 800,
 								letterSpacing: ".1rem",
 								color: ternaryColor,
-								textDecoration: "none",
 								fontSize: 20,
 							}}
 						>
-							Edge's Crafts
+							EDGE'S CRAFTS
 						</Typography>
 					</Link>
 					{/* //!  ADMIN BUTTONS */}
@@ -132,6 +138,7 @@ function NavBar(props) {
 							<Edit fontSize="medium" />
 						</Button>
 						{/* //!USER BUTTON / large screen */}
+						
 						<UserPopover sx={{ display: { xs: "none", md: "flex" } }} />
 					</Box>
 					<Box
@@ -154,7 +161,7 @@ function NavBar(props) {
 							<Button1 name="CONTACT"></Button1>
 						</Link>
 					</Box>
-					<Box sx={{ display: "flex", mr:{xs:2} }}>
+					<Box sx={{ display: "flex", mr: { xs: 2 } }}>
 						{" "}
 						{/* //!USER BUTTON / large screen */}
 						<Box sx={{ display: { xs: "flex", md: "none" } }}>
@@ -184,7 +191,11 @@ function NavBar(props) {
 					<SwipeableDrawer
 						anchor="right"
 						open={state}
-						sx={{ display:'flex', flexDirection:'column',justifyContent:'space-between' }}
+						sx={{
+							display: "flex",
+							flexDirection: "column",
+							justifyContent: "space-between",
+						}}
 						onOpen={() => console.log("open")}
 						onClose={(event, reason) => {
 							if (reason === "backdropClick") {
@@ -196,7 +207,14 @@ function NavBar(props) {
 						<List
 							sx={{
 								padding: 0,
-								width: { xs: "100vw", md: "33vw", display: "flex", flexDirection: "column", height: "100vh", justifyContent:'space-between'},
+								width: {
+									xs: "100vw",
+									md: "33vw",
+									display: "flex",
+									flexDirection: "column",
+									height: "100vh",
+									justifyContent: "space-between",
+								},
 							}}
 						>
 							<ListItem
@@ -223,57 +241,61 @@ function NavBar(props) {
 								/>
 								<FaShoppingCart color="white" />
 							</ListItem>
-							<Box sx={{height:'100%', overflow:'auto', display:'block'}}>
-							{/* //!ITEMS */}
-							{props.cart.length > 0
-								? props.cart.map((item, index) => (
-										<Box key={index}>
-											<ListItem sx={{ textAlign: "center" }}>
-												<div
-													style={{
-														flex: 1,
-														display: "flex",
-														justifyContent: "space-between",
-														alignItems: "center",
-													}}
-												>
-													<div>
-														<img
-															style={{ objectFit: "cover" }}
-															height={130}
-															width={130}
-															src={item.pic}
-															srcSet={`${item.pic}`}
-															alt={item.name}
-															loading="lazy"
-														/>
+							<Box sx={{ height: "100%", overflow: "auto", display: "block" }}>
+								{/* //!ITEMS */}
+								{props.cart.length > 0
+									? props.cart.map((item, index) => (
+											<Box key={index}>
+												<ListItem sx={{ textAlign: "center" }}>
+													<div
+														style={{
+															flex: 1,
+															display: "flex",
+															justifyContent: "space-between",
+															alignItems: "center",
+														}}
+													>
+														<div>
+															<img
+																style={{ objectFit: "cover" }}
+																height={130}
+																width={130}
+																src={item.pic}
+																srcSet={`${item.pic}`}
+																alt={item.name}
+																loading="lazy"
+															/>
+														</div>
+														<div>
+															<ListItemText>
+																<strong>Name</strong>
+															</ListItemText>
+															<ListItemText>{item.name}</ListItemText>
+														</div>
+														<div>
+															<ListItemText>
+																<strong>Price</strong>
+															</ListItemText>
+															<ListItemText>{item.price}</ListItemText>
+														</div>
+														<IconButton
+															onClick={() => {
+																props.removeItem(item);
+															}}
+														>
+															<IoClose size={20} color="grey" />
+														</IconButton>
 													</div>
-													<div>
-														<ListItemText>
-															<strong>Name</strong>
-														</ListItemText>
-														<ListItemText>{item.name}</ListItemText>
-													</div>
-													<div>
-														<ListItemText>
-															<strong>Price</strong>
-														</ListItemText>
-														<ListItemText>{item.price}</ListItemText>
-													</div>
-													<IconButton onClick={()=>{ props.removeItem(item)}}>
-														<IoClose size={20} color="grey" />
-													</IconButton>
-												</div>
-												<Divider />
-											</ListItem>
-											<Divider
-												variant="middle"
-												sx={{ backgroundColor: "black" }}
-											/>
-										</Box>
-								  ))
-								: empty}
-								</Box>
+													<Divider />
+												</ListItem>
+												<Divider
+													variant="middle"
+													sx={{ backgroundColor: "black" }}
+												/>
+											</Box>
+									  ))
+									: empty}
+							</Box>
 							{/* //!Footer */}
 							<ListItem
 								sx={{
@@ -291,17 +313,21 @@ function NavBar(props) {
 								>
 									Total: <strong>{total}</strong> $CAD
 								</ListItemText>
-								<Button
-									style={{
-										backgroundColor: ternaryColor,
-										border: "none",
-										fontFamily: "fg",
-										color: "white",
-									}}
-									onClick={()=> props.cart.length > 0 ? console.log(props.cart) : console.log('empty dickhead')}
-								>
-									Commander
-								</Button>
+
+								<Link to="/payment">
+									<Button
+										style={{
+											backgroundColor: ternaryColor,
+											border: "none",
+											fontFamily: "fg",
+											color: "white",
+										}}
+										onClick={toggleDrawer}
+										// props.cart.length > 0 ? console.log(props.cart) : console.log('empty dickhead')
+									>
+										Commander
+									</Button>
+								</Link>
 							</ListItem>
 						</List>
 					</SwipeableDrawer>
@@ -317,8 +343,9 @@ function NavBar(props) {
 						}}
 					>
 						{/* //!ITEMS */}
-						<List sx={{ p: 0, width:{xs:"50vw", md:"33vw"}}}>
+						<List sx={{ p: 0, width: { xs: "40vw", sm: "33vw" } }}>
 							<Link
+								className="App-link"
 								onClick={() => {
 									toggleLeftDrawer();
 								}}
@@ -328,6 +355,7 @@ function NavBar(props) {
 								</ListItemButton>
 							</Link>
 							<Link
+							className="App-link"
 								onClick={() => {
 									toggleLeftDrawer();
 								}}
@@ -338,6 +366,7 @@ function NavBar(props) {
 								</ListItemButton>
 							</Link>
 							<Link
+							className="App-link"
 								onClick={() => {
 									toggleLeftDrawer();
 								}}
@@ -348,6 +377,7 @@ function NavBar(props) {
 								</ListItemButton>
 							</Link>
 							<Link
+							className="App-link"
 								onClick={() => {
 									toggleLeftDrawer();
 								}}

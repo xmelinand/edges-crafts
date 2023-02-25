@@ -38,6 +38,7 @@ function Shop(props) {
 			// disable addToCart button if sold 
 			var buttonToggle = item.sold ? true : false;
 			var name;
+
 			if (item.sold === true){
 				name = 'Vendu'
 			} else {
@@ -76,7 +77,7 @@ function Shop(props) {
 									action={() => {
 										addToCart(item);
 									}}
-								></Button1>
+								/>
 								<div>
 									{" "}
 									<strong>{item.price}$</strong>{" "}
@@ -98,8 +99,8 @@ function Shop(props) {
 					xl="4"
 				>
 					<h1
-						className="tusk text-center mt-2 mb-0 me-1 ms-1"
-						style={{ color: primaryColor, fontSize: 40 }}
+					className="Pangram mt-2 mb-2 me-1"
+					style={{ color: primaryColor, fontSize: 20 }}
 					>
 						SHOP
 					</h1>
@@ -138,6 +139,10 @@ function Shop(props) {
 	);
 }
 
+function mapStateToProps(state) {
+	return { cart: state.cart };
+}
+
 function mapDispatchToProps(dispatch) {
 	return {
 		addItem: function (item) {
@@ -146,4 +151,4 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default connect(null, mapDispatchToProps)(Shop);
+export default connect(mapStateToProps, mapDispatchToProps)(Shop);

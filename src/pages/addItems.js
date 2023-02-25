@@ -22,6 +22,7 @@ export default function AddItems() {
 	const [name, setName] = useState("");
 	const [pic, setPic] = useState("");
 
+
 	const handleCategory = (event) => {
 		setCategory(event.target.value);
 	};
@@ -37,6 +38,13 @@ export default function AddItems() {
 	const handlePic = (event) => {
 		setPic(event.target.value);
 	};
+
+	const onImageChange = (event) => {
+		if (event.target.files && event.target.files[0]) {
+		  setPic(URL.createObjectURL(event.target.files[0]));
+		}
+	   }
+	   
 
 	var handleAddItem = async () => {
 		var rawResponse = await fetch(
@@ -116,10 +124,7 @@ export default function AddItems() {
 						onChange={handlePic}
 					/>
 					<Typography sx={{ mt: 1 }}> ou </Typography>
-					<Button sx={{ mt: 1 }} variant="contained" component="label">
-						Parcourir...
-						<input type="file" hidden />
-					</Button>
+						<input className="stripe_button" type="file" accept="image/png, image/jpeg" onChange={onImageChange}/>
 					<Divider sx={{ width: "80%", backgroundColor: "black", mt: 2 }} />
 
 					<Button
@@ -198,5 +203,5 @@ var styles = {
 		padding: 2,
 		margin: 1,
 		boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.1)",
-	}
+	},
 };

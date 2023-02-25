@@ -86,7 +86,7 @@ const Button2 = ({ name, action, icon }) => {
 			onClick={()=>
 				{setClicked(!clicked)}
 			}
-			toggle={true}
+			toggle="true"
 		>
 			<>{icon}{name}</>
 		</Button>

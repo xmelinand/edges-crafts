@@ -12,11 +12,14 @@ import AddItems from './pages/addItems';
 import Contact from './pages/contact';
 
 import cart from './reducers/cart';
+import orderAmount from './reducers/getOrderAmount';
+import userToken from './reducers/userToken';
 
 import {Provider} from 'react-redux';
 import {createStore, combineReducers}  from 'redux';
+import Payment from './pages/payment';
 
-const store = createStore(combineReducers({cart}));
+const store = createStore(combineReducers({cart, orderAmount, userToken}));
 
 function App() {
   useEffect(() => {
@@ -36,6 +39,7 @@ function App() {
         <Route exact path="/about" element={<About/>}/>
         <Route exact path="/contact" element={<Contact/>}/>
         <Route exact path="/add-items" element={<AddItems/>}/>
+        <Route exact path="/payment" element={<Payment/>}/>
     </Routes>
     </Container>
     </Provider>

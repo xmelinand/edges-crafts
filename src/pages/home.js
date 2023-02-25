@@ -12,11 +12,11 @@ export function Home() {
 	}, []);
 
 	return (<div className="bg">
-		<Container className='bg' style={{flex:1}}>
+		<Container style={{flex:1}}>
 			<Row style={{ borderBottom: `solid 1px white` }}>
 				<h1
-					className="tusk mt-2 mb-0 me-1"
-					style={{ color: 'white', fontSize: 40 }}
+					className="Pangram mt-2 mb-2 p-0"
+					style={{ color: 'white', fontSize: 20 }}
 				>
 					DERNIÈRES CRÉATIONS  
 				</h1>
