@@ -87,7 +87,10 @@ function CheckoutForm(props) {
 	};
 
 	const paymentElementOptions = {
-		layout: "tabs",
+			billingDetails: {
+			  address: 'never',
+
+			}
 	};
 
 	return (
@@ -113,34 +116,6 @@ function CheckoutForm(props) {
 							}
 						}}
 						options={{
-							fields: {
-								name: 'always',
-								line1: 'always',
-								city: 'always',
-								state: 'always',
-								country: 'always',
-								postal_code: 'always',
-							},
-							validation: {
-								name: {
-									required: "always",
-								},
-								line1: {
-									required: "always",
-								},
-								city: {
-									required: "always",
-								},
-								state: {
-									required: "always",
-								},
-								country: {
-									required: "always",
-								},
-								postal_code: {
-									required: "always",
-								},
-							},
 							mode: "shipping",
 							allowedCountries: ["US", "CA"],
 						}}

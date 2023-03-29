@@ -82,7 +82,7 @@ const styles = {
 		
 		color: primaryColor,
 		borderColor: primaryColor,
-		marginRight: 'auto',
+		marginRight: '10px',
 		"&:hover": { transition:"0.2s", backgroundColor: primaryColor, color: "#fff" },
 	},
 	iconsBox: {

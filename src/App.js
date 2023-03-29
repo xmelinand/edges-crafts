@@ -8,8 +8,8 @@ import Shop from './pages/shop';
 
 import NavBar from './components/NavBar'
 import WebFont from 'webfontloader';
-import AddItems from './pages/addItems';
 import Contact from './pages/contact';
+import BackOffice from './pages/backOffice';
 
 import cart from './reducers/cart';
 import orderAmount from './reducers/getOrderAmount';
@@ -38,7 +38,7 @@ function App() {
         <Route exact path="/shop" element={<Shop/>}/>
         <Route exact path="/about" element={<About/>}/>
         <Route exact path="/contact" element={<Contact/>}/>
-        <Route exact path="/add-items" element={<AddItems/>}/>
+        <Route exact path="/back-office" element={<BackOffice/>}/>
         <Route exact path="/payment" element={<Payment/>}/>
     </Routes>
     </Container>

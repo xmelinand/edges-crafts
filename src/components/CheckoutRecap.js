@@ -9,6 +9,7 @@ import {
 	ListItemAvatar,
 	Avatar,
 } from "@mui/material";
+import { priceFormat } from "../helpers/priceFormat";
 
 function CheckoutRecap(props) {
 	var total = 0;
@@ -25,7 +26,7 @@ function CheckoutRecap(props) {
 							<Avatar alt="Aperçu de l'article" src={item.pic} />
 						</ListItemAvatar>
 						<ListItemText id={i} primary={item.name} />
-						<ListItemText id={i}> {item.price} $CA</ListItemText>
+						<ListItemText id={i}> {priceFormat(item.price)}</ListItemText>
 
 						<DeleteIcon
 							edge="end"
@@ -40,7 +41,7 @@ function CheckoutRecap(props) {
 	}
 	return (
 		<div className="stripe">
-			<h1>{Number.parseFloat(props.orderAmount).toFixed(2)} $CA</h1>
+			<h1>{priceFormat(props.orderAmount)}</h1>
 			<List dense sx={styles.list}>
 				{itemsList}
 			</List>

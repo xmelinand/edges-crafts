@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { darkColor, primaryColor, ternaryColor } from "../config";
 import { FaShoppingCart, FaArrowLeft } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
-import { Add, Edit, Menu } from "@mui/icons-material";
+import { Menu } from "@mui/icons-material";
 import {
 	IconButton,
 	Box,
@@ -121,22 +121,14 @@ function NavBar(props) {
 							alignItems: "center",
 						}}
 					>
-						<Link to="/add-items">
+						<Link to="/back-office">
 							<Button
 								variant="contained"
 								sx={{ backgroundColor: ternaryColor, mr: 1 }}
 							>
-								<Add fontSize="medium" />
+								Outils Administrateur
 							</Button>
 						</Link>
-						<Button
-							variant="contained"
-							sx={{ backgroundColor: primaryColor, mr: 1 }}
-							aria-label="edit"
-							label="Edit"
-						>
-							<Edit fontSize="medium" />
-						</Button>
 						{/* //!USER BUTTON / large screen */}
 						
 						<UserPopover sx={{ display: { xs: "none", md: "flex" } }} />

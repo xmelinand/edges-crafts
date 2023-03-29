@@ -1,4 +1,4 @@
-export default function (cart = [], action) {
+export default function cart(cart = [], action) {
 	if (action.type === "addItem") {
 		//* 1
 		//*if the cart is empty, adds clickedItem to the cart.

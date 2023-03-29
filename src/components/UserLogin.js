@@ -27,14 +27,15 @@ function UserLogin(props) {
 
 		console.log("response", response);
 		if (response.logged === true) {
-			// setErrorMessage(false);
             setSuccess(true);
             setSuccessMessage("Connexion réussie!");
+            setErrorMessage("");
             setError(false)
 			props.addUserToken(response.userToken);
 		} else if (!response.logged) {
             setError(true);
 			setErrorMessage(response.error);
+			setSuccessMessage("");
             setSuccess(false);
 		}
 	};
@@ -59,8 +60,8 @@ function UserLogin(props) {
 					value={loginPassword}
 					required
 				/>
-				{error ? <AlertBox message={errorMessage} /> : ""}
-				{success ? <SuccessBox message={successMessage} /> : ""}
+				{errorMessage ? <AlertBox message={errorMessage} action={()=> setErrorMessage('')}/> : ""}
+				{successMessage ? <SuccessBox message={successMessage} action={()=> setSuccessMessage('')}/> : ""}
 				{/* <input type="submit" className="sign-in_button"> */}
 					<button className="stripe_button" disabled={isLoading} id="submit">
 						<span id="button-text">

@@ -4,13 +4,15 @@ import { primaryColor } from "../config";
 import { GiSewingString, GiCandleHolder, GiCrystalBars } from "react-icons/gi";
 import { BsFillMoonStarsFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { SuccessBox } from "../components/SuccessBox";
 
 function Shop(props) {
 	const [articles, setArticles] = useState([]);
 	const [filters, setFilters] = useState([]);
+	const [deleteMessage, setDeleteMessage] = useState('');
+	const [deletion, setDeletion] = useState(0);
 
-	//get all articles from DB at loading
+	//get all articles from DB at loading, then reload articles after each deletion
 	useEffect(() => {
 		async function loadArticles() {
 			const rawResponse = await fetch(
@@ -20,39 +22,57 @@ function Shop(props) {
 			setArticles(response.articles);
 		}
 		loadArticles();
-	}, []);
+	}, [deleteMessage]);
 
 	// Whenever a category is clicked, sends filters to backend to get only filtered articles from DB.
 	// Backend route sends all articles if no filters is selected.
 	useEffect(() => {
-		console.log("usf", filters);
-		async function filterArticles(){
-			var rawResponse = await fetch(
-				'http://localhost:3000/articles/filter-articles',
-				{
-					method: "POST",
-					headers: { "Content-Type": "application/x-www-form-urlencoded" },
-					body: `filters=${filters}`,
-				}
-			);
-			let response = await rawResponse.json();
-			setArticles(response.articles);
-		};
-		filterArticles();
+		if (filters) {
+			console.log("usf", filters);
+			async function filterArticles() {
+				var rawResponse = await fetch(
+					"http://localhost:3000/articles/filter-articles",
+					{
+						method: "POST",
+						headers: { "Content-Type": "application/x-www-form-urlencoded" },
+						body: `filters=${filters}`,
+					}
+				);
+				let response = await rawResponse.json();
+				setArticles(response.articles);
+			}
+			filterArticles();
+		}
 	}, [filters]);
 
 	// add filter if not already in filters useState, deletes it if clicked again.
 	function handleFilters(filterName) {
-			if (filters.includes(filterName)) {
-				setFilters(filters.filter((e) => e !== filterName));
-			} else {
-				setFilters([...filters, filterName]);
-			}
+		if (filters.includes(filterName)) {
+			setFilters(filters.filter((e) => e !== filterName));
+		} else {
+			setFilters([...filters, filterName]);
+		}
 	}
 
-	function addToCart(clickedItem) {
-		props.addItem(clickedItem);
-	}
+    /* Deletes selected article from DB then triggers Success notification
+        by updating deletion state and message. */
+	const handleDelete = async (item) => {
+		console.table(item);
+		const rawResponse = await fetch(
+			`http://localhost:3000/articles/delete-item`,
+			{
+				method: "DELETE",
+				headers: { "Content-Type": "application/x-www-form-urlencoded" },
+				body: `itemId=${item._id}`,
+			}
+		);
+		const response = await rawResponse.json();
+        if(response.success === true){
+        setDeleteMessage(response.message)
+        setDeletion(deletion+1)
+		console.log('oui?',response.message);
+        }
+	};
 
 	/* Generate a list of cards for all the articles found in the dataBase, 
 	list of articles in the state can be updated w/ filters wich change items displayed.
@@ -62,25 +82,13 @@ function Shop(props) {
 		.slice(0)
 		.reverse()
 		.map(function (item, i) {
-			// I sold article:
-			// show hollow
-			var opacity = item.sold ? 0.5 : 1;
-			// disable addToCart button
-			var buttonToggle = item.sold ? true : false;
-			var name;
-			// changes button text
-			if (item.sold === true) {
-				name = "Vendu";
-			} else {
-				name = "Ajouter au panier";
-			}
+			var name = "Supprimer";
 
 			return (
 				<Col key={i} className="cards">
 					<Card
 						className="shadow"
 						style={{
-							opacity: opacity,
 							margin: "10px",
 							borderRadius: 0,
 							border: "1px solid #967469",
@@ -104,10 +112,9 @@ function Shop(props) {
 							<Card.Text>{item.description}</Card.Text>
 							<div className="d-flex align-items-center justify-content-between">
 								<Button1
-									disable={buttonToggle}
 									name={name}
 									action={() => {
-										addToCart(item);
+										handleDelete(item);
 									}}
 								/>
 								<div>
@@ -122,7 +129,7 @@ function Shop(props) {
 		});
 	return (
 		<Container style={{ flex: 1 }}>
-			<Row style={{ borderBottom: `solid 1px ${primaryColor}` }}>
+			<Row>
 				<div
 					className="d-flex flex-row justify-content-space-between align-items-center p-0"
 					xs="1"
@@ -134,7 +141,7 @@ function Shop(props) {
 						className="Pangram mt-2 mb-2 me-1"
 						style={{ color: primaryColor, fontSize: 20 }}
 					>
-						SHOP
+						ARTICLES
 					</h1>
 					{/* CATEGORY FILTERS */}
 					<Button2
@@ -159,6 +166,10 @@ function Shop(props) {
 					></Button2>
 				</div>
 			</Row>
+            {/* visual confirmation of article deletion based on deleteMessage existance */}
+            <Row>
+                {deleteMessage ? <SuccessBox message={deleteMessage} action={()=> setDeleteMessage('')}/> : ''}
+            </Row>
 			<Row style={{ display: "flex" }} xs="1" sm="2" lg="3" xl="4">
 				{items}
 			</Row>
@@ -166,16 +177,4 @@ function Shop(props) {
 	);
 }
 
-function mapStateToProps(state) {
-	return { cart: state.cart };
-}
-
-function mapDispatchToProps(dispatch) {
-	return {
-		addItem: function (item) {
-			dispatch({ type: "addItem", addItem: item });
-		},
-	};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Shop);
+export default Shop;

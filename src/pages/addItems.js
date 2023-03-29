@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import {
 	TextField,
 	Select,
@@ -14,6 +14,9 @@ import {
 import { primaryColor, ternaryColor } from "../config";
 import { Button1 } from "../components/anm-btn";
 import { Card } from "react-bootstrap";
+import axios from "axios";
+import { SuccessBox } from "../components/SuccessBox";
+import { CLOUDINARY_PRESET, CLOUDINARY_CLOUD } from "../config";
 
 export default function AddItems() {
 	const [category, setCategory] = useState("");
@@ -21,7 +24,29 @@ export default function AddItems() {
 	const [price, setPrice] = useState();
 	const [name, setName] = useState("");
 	const [pic, setPic] = useState("");
+	const [selectedImage, setSelectedImage] = useState(null);
+	const [message, setMessage] = useState("");
 
+	useEffect(() => {
+		if (selectedImage != null) {
+			const data = new FormData();
+			data.append("file", selectedImage);
+			data.append("upload_preset", CLOUDINARY_PRESET);
+			data.append("folder", "Edge's Crafts");
+			const uploadImage = async () => {
+				try {
+					const response = await axios.post(
+						`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/upload`,
+						data
+					);
+					setPic(response.data.url);
+				} catch (error) {
+					console.log(error);
+				}
+			};
+			uploadImage();
+		}
+	}, [selectedImage]);
 
 	const handleCategory = (event) => {
 		setCategory(event.target.value);
@@ -40,28 +65,30 @@ export default function AddItems() {
 	};
 
 	const onImageChange = (event) => {
-		if (event.target.files && event.target.files[0]) {
-		  setPic(URL.createObjectURL(event.target.files[0]));
-		}
-	   }
-	   
+		setSelectedImage(event.target.files[0]);
+	};
 
 	var handleAddItem = async () => {
-		var rawResponse = await fetch(
-			`http://localhost:3000/articles/add-item`,
-			{
-				mode: 'no-cors',
-				method: "POST",
-				headers: { "Content-Type": "application/x-www-form-urlencoded" },
-				body: `name=${name}&description=${description}&price=${price}&category=${category}&pic=${pic}`,
-			}
-		);
+		var rawResponse = await fetch(`http://localhost:3000/articles/add-item`, {
+			method: "POST",
+			headers: { "Content-Type": "application/x-www-form-urlencoded" },
+			body: `name=${name}&description=${description}&price=${price}&category=${category}&pic=${pic}`,
+		});
 		let response = await rawResponse.json();
-		console.log(response.addedArticle);
+		console.log(response.message);
+		setMessage(response.message);
 	};
 
 	return (
-		<Grid container sx={{ p: 3, display: "flex", alignItems: "flex-start", backgroundColor: ternaryColor }}>
+		<Grid
+			container
+			sx={{
+				p: 3,
+				display: "flex",
+				alignItems: "flex-start",
+				backgroundColor: "gray",
+			}}
+		>
 			<Grid
 				item
 				xs={12}
@@ -70,9 +97,7 @@ export default function AddItems() {
 			>
 				<h3>CRÉATION</h3>
 
-				<Box
-					sx={styles.box}
-				>
+				<Box sx={styles.box}>
 					<TextField
 						sx={styles.inputs}
 						id="outlined-basic"
@@ -80,6 +105,7 @@ export default function AddItems() {
 						variant="outlined"
 						value={name}
 						onChange={handleName}
+						required
 					/>
 					<TextField
 						sx={styles.inputs}
@@ -89,6 +115,7 @@ export default function AddItems() {
 						multiline={true}
 						value={description}
 						onChange={handleDescription}
+						required
 					/>
 					<FormControl sx={styles.inputs}>
 						<InputLabel id="demo-simple-select-label">Type</InputLabel>
@@ -96,8 +123,9 @@ export default function AddItems() {
 							labelId="demo-simple-select-label"
 							id="demo-simple-select"
 							value={category}
-							label="Age"
+							label="Type"
 							onChange={handleCategory}
+							required
 						>
 							<MenuItem value="Murale">Murale</MenuItem>
 							<MenuItem value="Suspension">Suspension</MenuItem>
@@ -113,6 +141,7 @@ export default function AddItems() {
 						variant="outlined"
 						value={price}
 						onChange={handlePrice}
+						required
 					/>
 					<Divider sx={{ width: "80%", backgroundColor: "black", mt: 2 }} />
 					<TextField
@@ -122,10 +151,17 @@ export default function AddItems() {
 						variant="outlined"
 						value={pic}
 						onChange={handlePic}
+						required
 					/>
 					<Typography sx={{ mt: 1 }}> ou </Typography>
-						<input className="stripe_button" type="file" accept="image/png, image/jpeg" onChange={onImageChange}/>
-					<Divider sx={{ width: "80%", backgroundColor: "black", mt: 2 }} />
+					<input
+						className="stripe_button"
+						type="file"
+						accept="image/png, image/jpeg"
+						onChange={onImageChange}
+						required
+					/>
+					<Divider sx={{ width: "80%", backgroundColor: "black" }} />
 
 					<Button
 						variant="contained"
@@ -136,9 +172,8 @@ export default function AddItems() {
 					</Button>
 				</Box>
 			</Grid>
-			<Grid item sx={styles.grids}></Grid>
 			{/* //! PREVIEW */}
-			<Grid item xs={12} md={6} sx={styles.grids}>
+			<Grid item xs={12} md={6} sx={[styles.grids, { pl: 3 }]}>
 				<h3>PREVIEW</h3>
 				<Card
 					className="shadow"
@@ -176,6 +211,7 @@ export default function AddItems() {
 						</div>
 					</Card.Body>
 				</Card>
+				{message ? <SuccessBox message={message} action={()=> setMessage('')} /> : ""}
 			</Grid>
 		</Grid>
 	);

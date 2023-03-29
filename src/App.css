@@ -131,15 +131,17 @@
 
 .error_box {
 	width: 100%;
+	padding: 10px;
 	background-color: rgb(236, 72, 72);
 	border-radius: 6px;
 	margin-bottom: 16px;
 	padding: 12px;
 	color: #fff;
-	animation: box-reveal 0.5s ease-out;
+	animation: box-reveal 0.3s ease-out;
 }
 .success_box {
 	width: 100%;
+	padding: 10px;
 	background-color: rgb(74, 214, 151);
 	border-radius: 6px;
 	margin-bottom: 16px;

@@ -97,7 +97,7 @@ function UserSignUp(props) {
 							placeholder="Confirmer mot de passe"
 							value={passwordConfirm}
 						/>
-						{signupErrorMessage ? <AlertBox message={signupErrorMessage} /> : ""}
+						{signupErrorMessage ? <AlertBox message={signupErrorMessage} action={()=> setSignupErrorMessage('')} /> : ""}
 						{/* <input
 							type="submit"
 							className="sign-in_button"

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Container, Row } from "react-bootstrap";
+import Slideshow  from "../components/Slideshow";
 
 export function Home() {
 	useEffect(() => {
@@ -31,7 +32,9 @@ export function Home() {
 				sm="2"
 				lg="3"
 				xl="4"
-			></Row>
+			>
+				<Slideshow/>
+			</Row>
 		</Container>
 		</div>
 	);

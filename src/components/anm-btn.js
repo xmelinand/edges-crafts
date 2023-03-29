@@ -37,7 +37,6 @@ const Button1 = ({ name, action, disable }) => {
 
 const Button2 = ({ name, action, icon }) => {
 	const [hover, setHover] = useState("");
-	const [clicked, setClicked] = useState(false);
 
 	let styles = {
 		btn: {
@@ -76,16 +75,14 @@ const Button2 = ({ name, action, icon }) => {
 
 	return (
 		<Button
-			style={!clicked ? styles.btn : styles.activeBtn}
+			style={styles.btn}
 			onMouseEnter={() => {
 				setHover(true);
 			}}
 			onMouseOut={() => {
 				setHover(false);
 			}}
-			onClick={()=>
-				{setClicked(!clicked)}
-			}
+			onClick={action}
 			toggle="true"
 		>
 			<>{icon}{name}</>
